@@ -7,9 +7,7 @@
             backgroundPositionY: '50%'
         }">
     <div class="header-box">
-      <img :src="getIcon(icon)">
       <div class="header-right">
-        <h2>{{date}}</h2>
         <h1>{{title}}</h1>
       </div>
     </div>
@@ -48,11 +46,12 @@ export default {
 }
 
 .header-box {
-  display: grid;
-  grid-template-columns: 100px 1fr;
   position: absolute;
   top: 200px;
-  margin: 50px;
+  margin-top: 100px;
+  margin-left: 50px;
+  margin-right: 50px;
+  /*margin-bottom: 10px;*/
   text-align: left;
 }
 
@@ -74,7 +73,6 @@ h1 {
   font-feature-settings: 'ss01' on;
   color: #FFFFFF;
   margin:5px;
-  margin-block-start: -50px;
 }
 
 h2 {

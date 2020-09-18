@@ -1,11 +1,7 @@
 <template>
   <div id="app">
     <PopUp :label="popuplabel" :url="popupurl" :event="popupevent" v-if="showPopup" @popup="closePopup"></PopUp>
-    <transition name="slide">
-      <Collections :events="events" :services="services" :articles="articles" v-if="/*0 && */slidesPos === 0" @popup="togglePopup"></Collections>
-      <Conference :events="events" :services="services" :videos="videos" :articles="articles" :guichet="guichet" v-if="/*1 || */slidesPos === 1" @popup="togglePopup"></Conference>
-      <Services :events="events" :services="services" :articles="articles" :guichet="guichet" v-if="slidesPos === 2" @popup="togglePopup"></Services>
-    </transition>
+    <Services :evenements="evenements" :pages="pages" :page="slidesPos" :links="links" @popup="togglePopup"></Services>
     <div v-if="showNightScreen" id="night-screen"></div>
   </div>
 </template>
@@ -13,19 +9,15 @@
 
 <script>
 import Airtable from 'airtable'
-import Collections from './views/Collections'
-import Conference from './views/Conferences'
 import Services from './views/Services'
 import PopUp from './views/PopUp'
 
 export default {
   data: function () {
     return {
-      events: [],
-      videos: [],
-      articles: [],
-      services: [],
-      guichet: [],
+      evenements: [],
+      pages: [],
+      links: [],
       showShowcase: true,
       showVideo: false,
       slidesPos: 0,
@@ -37,8 +29,6 @@ export default {
     }
   },
   components: {
-    Collections,
-    Conference,
     Services,
     PopUp
   },
@@ -55,13 +45,13 @@ export default {
   },
   mounted: function () {
     let self = this
-    setInterval(() => {
+    /*setInterval(() => {
       if (this.slidesPos === this.nbSlides - 1) {
         this.slidesPos = 0
       } else {
         this.slidesPos += 1
       }
-    }, 20000)
+    }, 20000)*/
 
     setInterval(() => {
       let currentTime = new Date()
@@ -78,74 +68,46 @@ export default {
     })
     var base = Airtable.base('appzie6SWUMPaqojZ')
 
-    base('events').select({
+    base('evenement').select({
       // Selecting the first 3 records in Grid view:
       maxRecords: 20,
       view: 'Grid view'
     }).eachPage(function page (records, fetchNextPage) {
       records.forEach(function (record) {
         // console.log(record.fields);
-        self.events.push(record.fields)
+        self.evenements.push(record.fields)
       })
       fetchNextPage()
     }, function done (err) {
       if (err) { console.error(err) }
     })
-
-    base('services').select({
+    
+    base('page').select({
       // Selecting the first 3 records in Grid view:
       maxRecords: 20,
       view: 'Grid view'
     }).eachPage(function page (records, fetchNextPage) {
       records.forEach(function (record) {
         // console.log(record.fields);
-        self.services.push(record.fields)
+        self.pages.push(record.fields)
       })
       fetchNextPage()
     }, function done (err) {
       if (err) { console.error(err) }
     })
-
-    base('videos').select({
+    
+    base('lien').select({
       // Selecting the first 3 records in Grid view:
-      maxRecords: 10,
+      maxRecords: 20,
       view: 'Grid view'
     }).eachPage(function page (records, fetchNextPage) {
       records.forEach(function (record) {
         // console.log(record.fields);
-        self.videos.push(record.fields)
+        self.links.push(record.fields)
       })
       fetchNextPage()
     }, function done (err) {
       if (err) { console.error(err) }
-    })
-
-    base('articles').select({
-      maxRecords: 20,
-      view: 'Grid view'
-    }).eachPage((records, fetchNextPage) => {
-      records.forEach(record => {
-        self.articles.push(record.fields)
-      })
-      fetchNextPage()
-    }, (err) => {
-      if (err) {
-        console.error(err)
-      }
-    })
-
-    base('guichet').select({
-      maxRecords: 20,
-      view: 'Grid view'
-    }).eachPage((records, fetchNextPage) => {
-      records.forEach(record => {
-        self.guichet.push(record.fields)
-      })
-      fetchNextPage()
-    }, (err) => {
-      if (err) {
-        console.error(err)
-      }
     })
   }
 }
@@ -172,10 +134,13 @@ body::-webkit-scrollbar {
 
 .horizontal-scroller {
   overflow-x: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-flow: row;
   flex-wrap: nowrap;
   scrollbar-width: none; /* For Firefox */
+  width: 100%;
+  margin-top: 22px;
 }
 
 .horizontal-scroller::-webkit-scrollbar {
