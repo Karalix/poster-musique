@@ -67,7 +67,7 @@ h1 {
   font-family: 'Jost';
   font-style: normal;
   font-weight: bold;
-  font-size: 55px;
+  font-size: 64px;
   line-height: 1.6em;
   /* identical to box height */
   font-feature-settings: 'ss01' on;

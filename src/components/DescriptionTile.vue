@@ -1,9 +1,7 @@
 <template>
     <div class="event-tile">
         <div class="event-info">
-            <h2>{{event.Nom}}</h2>
-            <p>{{localeDate}}</p>
-            <p>{{localeTime}}</p>
+            <p v-html="escapedDesc"></p>
         </div>
         <div class="event-img-wrapper">
             <img :src="event.Image[0].url">
@@ -24,6 +22,9 @@ export default {
             const options = { hour: 'numeric', minute: 'numeric'}
             const dateobj = new Date(this.event.Date)
             return dateobj.toLocaleString(undefined, options)
+        },
+        escapedDesc: function () {
+            return this.event.Description.replaceAll(/\n/g,'<br/>')
         }
     }
 }
@@ -37,11 +38,12 @@ export default {
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     margin-left: 50px;
-    margin-top: 22px;
+    margin-top: 60px;
     padding-left: 22px;
     padding-right: 22px;
-    width: 39vw;
-    height: 250px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 83vw;
     float: left;
 }
 

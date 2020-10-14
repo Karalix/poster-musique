@@ -2,8 +2,11 @@
   <div class="services">
     <Header :title="pages[page].Nom" :img="pages[page].Image[0].url"></Header>
     <!--<EventVignette :eventobj="item" v-for="item of ownEvents" :key="item.name"></EventVignette>-->
-    <p class="page-desc">{{pages[page].Description}}</p>
+    <p class="page-desc" v-html="htmlDescription"></p>
+    <div id="main-content-wrapper">
     <EventTile v-for="event of ownEvents" :key="event.nom" :event="event"></EventTile>
+    <DescriptionTile :event="event" :key="event.Nom" v-for="event of ownDesc"></DescriptionTile>
+    </div>
     <div class="our-select">
       <div>
         <h3>Notre sélection</h3>
@@ -14,7 +17,7 @@
       </div>
     </div>
     <div class="horizontal-scroller">
-      <LinkVignette :linkobj="link" v-for="link of links" :key="link.Url"></LinkVignette>
+      <LinkVignette :linkobj="link" v-for="link of ownLinks" :key="link.Url"></LinkVignette>
     </div>
   </div>
 </template>
@@ -25,19 +28,22 @@ import Header from '@/components/Header.vue'
 import LinkVignette from '@/components/LinkVignette.vue'
 import EventTile from '@/components/EventTile.vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
+import DescriptionTile from '@/components/DescriptionTile.vue'
 
 export default {
-  name: 'patrimoine',
+  name: 'services',
   components: {
     Header,
     EventTile,
-    LinkVignette
+    LinkVignette,
+    DescriptionTile
   },
   props: [
     'page',
     'evenements',
     'pages',
-    'links'
+    'links',
+    'desc'
   ],
   methods: {
     relayPopup: function (label) {
@@ -51,6 +57,19 @@ export default {
       return this.evenements.filter(el => {
         return el.Page === this.pages[this.page].Page
       })
+    },
+    ownDesc: function () {
+      return this.desc.filter(el => {
+        return el.Page === this.pages[this.page].Page
+      })
+    },
+    ownLinks: function () {
+      return this.links.filter(el => {
+        return el.Page === this.pages[this.page].Page
+      })
+    },
+    htmlDescription: function () {
+      return this.pages[this.page].Description.replaceAll(/\n/g, '<br/>')
     }
   }
 }
@@ -60,6 +79,7 @@ export default {
 .page-desc {
   text-align: left;
   margin-left: 50px;
+  margin-right: 50px;
   font-size: 20px;
 }
 
@@ -68,6 +88,7 @@ export default {
   float: left;
   text-align: left;
   margin-left: 50px;
+  margin-top: 50px;
   display: grid;
   grid-template-columns: 70% 1fr;
 }
@@ -83,5 +104,9 @@ export default {
 
 .our-select p {
   font-size: 20px;
+}
+
+#main-content-wrapper {
+  min-height: 450px;
 }
 </style>

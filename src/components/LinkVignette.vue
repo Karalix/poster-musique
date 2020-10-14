@@ -43,7 +43,7 @@ export default {
   font-size: 20px;
   line-height: 59px;
   text-align: center;
-  width: fit-content;
+  width: 85%;
   color: #FFFFFF;
 }
 

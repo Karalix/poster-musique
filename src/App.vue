@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <PopUp :label="popuplabel" :url="popupurl" :event="popupevent" v-if="showPopup" @popup="closePopup"></PopUp>
-    <Services :evenements="evenements" :pages="pages" :page="slidesPos" :links="links" @popup="togglePopup"></Services>
+    <Services :evenements="evenements" :pages="pages" :page="slidesPos" :links="links" :desc="desc" @popup="togglePopup"></Services>
     <div v-if="showNightScreen" id="night-screen"></div>
   </div>
 </template>
@@ -18,9 +18,10 @@ export default {
       evenements: [],
       pages: [],
       links: [],
+      desc: [],
       showShowcase: true,
       showVideo: false,
-      slidesPos: 0,
+      slidesPos: 1,
       nbSlides: 3,
       showPopup: false,
       popuplabel: 'ceci',
@@ -45,13 +46,13 @@ export default {
   },
   mounted: function () {
     let self = this
-    /*setInterval(() => {
+    setInterval(() => {
       if (this.slidesPos === this.nbSlides - 1) {
         this.slidesPos = 0
       } else {
         this.slidesPos += 1
       }
-    }, 20000)*/
+    }, 20000)
 
     setInterval(() => {
       let currentTime = new Date()
@@ -104,6 +105,21 @@ export default {
       records.forEach(function (record) {
         // console.log(record.fields);
         self.links.push(record.fields)
+      })
+      fetchNextPage()
+    }, function done (err) {
+      if (err) { console.error(err) }
+    })
+
+    
+    base('description').select({
+      // Selecting the first 3 records in Grid view:
+      maxRecords: 20,
+      view: 'Grid view'
+    }).eachPage(function page (records, fetchNextPage) {
+      records.forEach(function (record) {
+        // console.log(record.fields);
+        self.desc.push(record.fields)
       })
       fetchNextPage()
     }, function done (err) {
