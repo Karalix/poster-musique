@@ -1,5 +1,10 @@
 <template>
   <div class="services">
+    
+    <div class="progress-bar">
+      <div class="progress-segment" :class="{past: isPastPage(index), current: isCurrentPage(index)}" v-for="(pagx, index) of pages" :key="index">
+      </div>
+    </div>
     <Header :title="pages[page].Nom" :img="pages[page].Image[0].url"></Header>
     <!--<EventVignette :eventobj="item" v-for="item of ownEvents" :key="item.name"></EventVignette>-->
     <p class="page-desc" v-html="htmlDescription"></p>
@@ -50,6 +55,12 @@ export default {
       let ag = label
       //ag.event = this.ownEvent.name
       this.$emit('popup', ag)
+    },
+    isPastPage: function (index) {
+      return index < this.page
+    },
+    isCurrentPage: function (index) {
+      return index === this.page
     }
   },
   computed: {
@@ -112,5 +123,37 @@ export default {
 
 .underline {
   text-decoration: underline;
+}
+
+.progress-bar {
+
+  position: fixed;
+  top : 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.progress-segment {
+  flex: 1 0 auto;
+  height: 10px;
+  border-radius: 10px;
+  background-color: #181818;
+  margin: 20px;
+}
+
+.past {
+  background-color: white;
+}
+
+.current {
+  background-color: white;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    background-color: #181818;
+  }
 }
 </style>
