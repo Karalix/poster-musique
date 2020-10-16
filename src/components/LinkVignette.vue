@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
 .link-vignette {
-  width: 400px;
+  width: 25vw;
   margin-left: 50px;
   margin-top: 50px;
   position: relative;
@@ -33,7 +33,7 @@ export default {
 
 .link-vignette-name {
   position: absolute;
-  bottom: 8px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%,0);
   background-color: #0D0C0C;
@@ -43,8 +43,13 @@ export default {
   font-size: 20px;
   line-height: 59px;
   text-align: center;
-  width: 85%;
+  width: calc(100% - 1px);
   color: #FFFFFF;
+  border-left: solid  1px white;
+  border-right: solid  1px white;
+  border-bottom: solid  1px white;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .link-vignette-img {

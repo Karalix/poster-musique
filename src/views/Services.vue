@@ -10,7 +10,7 @@
     <div class="our-select">
       <div>
         <h3>Notre sélection</h3>
-        <p>Retrouvez toutes les informations, les contenus et documents sélectionnés par nos soins à l’adresse placed.eu/#{{pages[page].Page}} ou en scannant le QR code.</p>
+        <p>Retrouvez toutes les informations, les contenus et documents sélectionnés par nos soins à l’adresse <em class="underline">placed.eu/#{{pages[page].Page}}</em> ou en scannant le QR code.</p>
       </div>
       <div>
         <qrcode class="qrcode" :value="'https://placed.eu/#'+pages[page].Page" :options="{ width: 150 }"></qrcode>
@@ -108,5 +108,9 @@ export default {
 
 #main-content-wrapper {
   min-height: 450px;
+}
+
+.underline {
+  text-decoration: underline;
 }
 </style>

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import md from 'markdown-it'
+
 export default {
     props: ['event'],
     computed: {
@@ -24,7 +26,7 @@ export default {
             return dateobj.toLocaleString(undefined, options)
         },
         escapedDesc: function () {
-            return this.event.Description.replaceAll(/\n/g,'<br/>')
+            return md().render(this.event.Description)
         }
     }
 }

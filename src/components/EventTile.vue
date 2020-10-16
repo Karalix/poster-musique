@@ -2,8 +2,9 @@
     <div class="event-tile">
         <div class="event-info">
             <h2>{{event.Nom}}</h2>
-            <p>{{localeDate}}</p>
-            <p>{{localeTime}}</p>
+            <p><strong>{{localeDate}}</strong> à {{localeTime}}</p>
+            <p v-html="parsedDesc"></p>
+
         </div>
         <div class="event-img-wrapper">
             <img :src="event.Image[0].url">
@@ -12,6 +13,9 @@
 </template>
 
 <script>
+import md from 'markdown-it'
+
+
 export default {
     props: ['event'],
     computed: {
@@ -24,6 +28,9 @@ export default {
             const options = { hour: 'numeric', minute: 'numeric'}
             const dateobj = new Date(this.event.Date)
             return dateobj.toLocaleString(undefined, options)
+        },
+        parsedDesc: function () {
+            return md().render(this.event.Description)
         }
     }
 }
@@ -41,13 +48,14 @@ export default {
     padding-left: 22px;
     padding-right: 22px;
     width: 39vw;
-    height: 250px;
+    min-height: 250px;
     float: left;
 }
 
 .event-info {
     text-align: left;
     font-size: 20px;
+    margin-right: 10px;
 }
 
 .event-info h2 {
