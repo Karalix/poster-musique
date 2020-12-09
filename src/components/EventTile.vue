@@ -1,8 +1,8 @@
 <template>
-    <div class="event-tile">
+    <div class="event-tile" :class="{alone : nbEvents === 1}">
         <div class="event-info">
             <h2>{{event.Nom}}</h2>
-            <p><strong>{{localeDate}}</strong> à {{localeTime}}</p>
+            <p v-if="this.event.Date"><strong>{{localeDate}}</strong> à {{localeTime}}</p>
             <p v-html="parsedDesc"></p>
 
         </div>
@@ -17,7 +17,7 @@ import md from 'markdown-it'
 
 
 export default {
-    props: ['event'],
+    props: ['event','nbEvents'],
     computed: {
         localeDate: function () {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
@@ -50,6 +50,10 @@ export default {
     width: 39vw;
     min-height: 250px;
     float: left;
+}
+
+.alone {
+    width: 90vw;
 }
 
 .event-info {

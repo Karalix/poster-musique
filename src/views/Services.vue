@@ -9,7 +9,7 @@
     <!--<EventVignette :eventobj="item" v-for="item of ownEvents" :key="item.name"></EventVignette>-->
     <p class="page-desc" v-html="htmlDescription"></p>
     <div id="main-content-wrapper">
-    <EventTile v-for="event of ownEvents" :key="event.nom" :event="event"></EventTile>
+    <EventTile v-for="event of ownEvents" :key="event.nom" :event="event" :nbEvents="ownEvents.length"></EventTile>
     <DescriptionTile :event="event" :key="event.Nom" v-for="event of ownDesc"></DescriptionTile>
     </div>
     <div class="our-select">
