@@ -10,7 +10,7 @@
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "airtable": "^0.8.1",
     "core-js": "^3.6.5",
-    "markdown-it": "^12.0.0",
+    "markdown-it": "^12.3.2",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
